@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { Modal, Backdrop, Fade, TextField, Button } from "@material-ui/core";
+import {
+  Modal,
+  Backdrop,
+  Fade,
+  TextField,
+  Button,
+  Typography
+} from "@material-ui/core";
 import { Creators as PostReducer } from "../../../store/ducks/posts";
 import useStyles from "./styles";
 
@@ -25,9 +32,9 @@ const EditPostModal = props => {
     props.closeEditModal();
   };
 
-  const editPost = () => {
+  const editPost = event => {
     let data = {
-      id: props.modalData.id,
+      postId: props.modalData.postId,
       title: values.title,
       body: values.body
     };
@@ -48,9 +55,12 @@ const EditPostModal = props => {
     >
       <Fade in={props.modalOpened}>
         <form className={classes.paper} noValidate autoComplete="off">
+          <Typography variant="h4" component="h4">
+            Editar Post
+          </Typography>
           <TextField
             id="outlined-title"
-            label="Title"
+            label="Título"
             onChange={handleChange("title")}
             value={values.title}
             margin="normal"
@@ -58,7 +68,7 @@ const EditPostModal = props => {
           />
           <TextField
             id="outlined-dense-description"
-            label="Description"
+            label="Descrição"
             onChange={handleChange("body")}
             value={values.body}
             margin="dense"
@@ -72,7 +82,7 @@ const EditPostModal = props => {
               editPost();
             }}
           >
-            Edit
+            Editar
           </Button>
         </form>
       </Fade>

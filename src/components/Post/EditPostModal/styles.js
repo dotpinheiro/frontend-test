@@ -8,8 +8,8 @@ const styles = makeStyles(theme => ({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
     boxShadow: theme.shadows[5],
+    borderRadius: "3px",
     padding: theme.spacing(2, 4, 3),
     display: "flex",
     alignItems: "center",

@@ -4,15 +4,20 @@ import { Creators as PostActions } from "../ducks/posts";
 
 export function* getPosts(action) {
   try {
-    const { data } = yield call(api.get, "/posts");
-    console.tron.log(data);
-    // const posts = yield call(api.get, "/posts");
-    // const users = yield call(api.get, "/users");
-    // const data = {
-    //   posts: posts.data,
-    //   users: users.data
-    // };
-    yield put(PostActions.getPostsSuccess(data));
+    // const { data } = yield call(api.get, "/posts");
+    // console.tron.log(data);
+    let posts = yield call(api.get, "/posts");
+    let users = yield call(api.get, "/users");
+    posts = posts.data;
+    users = users.data;
+
+    posts = posts.map(post =>
+      Object.assign(post, users.find(user => post.userId === user.id), {
+        postId: post.id
+      })
+    );
+
+    yield put(PostActions.getPostsSuccess(posts));
   } catch (err) {
     // yield put (PostActions.getPostsFailure(errors));
   }
@@ -23,7 +28,7 @@ export function* editPost(action) {
   try {
     const { data } = yield call(
       api.put,
-      `/posts/${payload.post.id}`,
+      `/posts/${payload.post.postId}`,
       payload.post
     );
     yield put(PostActions.editPostSuccess(data));

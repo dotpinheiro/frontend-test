@@ -23,6 +23,7 @@ export const Types = {
 const INITIAL_STATE = {
   modalOpened: false,
   modalData: {},
+  loading: false,
   data: []
 };
 
@@ -33,15 +34,18 @@ export default function posts(state = INITIAL_STATE, action) {
       return { ...state, modalOpened: true, modalData: payload };
     case Types.CLOSE_EDIT_MODAL:
       return { ...state, modalOpened: false };
+    case Types.GET_POSTS_REQUEST:
+      return { ...state, loading: true };
     case Types.GET_POSTS_SUCCESS:
-      return { ...state, data: payload };
+      return { ...state, data: payload, loading: false };
     case Types.GET_POSTS_FAILURE:
       return { ...state, data: { ...payload } };
     case Types.EDIT_POST_SUCCESS:
       return {
         ...state,
         data: state.data.map((post, index) => {
-          if (post.id === payload.post.id) return payload.post;
+          if (post.postId === payload.post.postId)
+            return { ...post, ...payload.post };
           else return post;
         })
       };

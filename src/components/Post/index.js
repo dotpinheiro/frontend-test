@@ -46,6 +46,8 @@ const Post = props => {
     <Card className={classes.post}>
       <CardHeader
         title={props.post.title}
+        subheader={"Autor: " + props.post.name}
+        className={classes.header}
         onClick={handleDetails}
         action={
           <Fragment>
